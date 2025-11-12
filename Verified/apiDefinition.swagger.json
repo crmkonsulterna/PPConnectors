@@ -63,7 +63,9 @@
             "required": true,
             "type": "integer",
             "default": 1,
-            "x-ms-visibility": "internal"
+            "x-ms-visibility": "important",
+            "description": "Whether Verified activates IP Lock (0, default) or not (1)",
+            "x-ms-summary": "Without IP Lock"
           }
         ]
       }
@@ -774,8 +776,62 @@
     "/query/envelopes": {
       "get": {
         "operationId": "GetQueryEnvelopes",
-        "summary": "Query all envelopes",
-        "description": "Queries all envelopes matching a given filter.",
+        "summary": "Query all envelopes (Deprecated)",
+        "description": "Queries all envelopes matching a given filter. (Deprecated)",
+        "parameters": [
+          {
+            "$ref": "#/parameters/Token"
+          },
+          {
+            "$ref": "#/parameters/ContentType"
+          },
+          {
+            "$ref": "#/parameters/XNamespace"
+          },
+          {
+            "$ref": "#/parameters/Filters"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "type": "integer",
+            "x-ms-summary": "From",
+            "description": "From date"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "x-ms-summary": "Limit",
+            "description": "Limit amount"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "type": "string",
+            "x-ms-summary": "Sort",
+            "description": "Sort by"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EnvelopeDescriptorString"
+              }
+            }
+          }
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/search/envelopes": {
+      "get": {
+        "operationId": "GetSearchEnvelopes",
+        "summary": "Search all envelopes",
+        "description": "Search all envelopes matching a given filter.",
         "parameters": [
           {
             "$ref": "#/parameters/Token"
@@ -1684,10 +1740,7 @@
           "x-ms-visibility": "advanced"
         },
         "signatures": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Signature"
-          },
+          "type": "object",
           "x-ms-visibility": "advanced"
         },
         "notifications": {
@@ -1695,6 +1748,7 @@
           "items": {
             "$ref": "#/definitions/Notification"
           },
+          "title": "Notifications",
           "x-ms-visibility": "advanced"
         }
       }
@@ -2645,6 +2699,10 @@
         "details": {
           "type": "object",
           "title": "Details"
+        },
+        "date": {
+          "type": "string",
+          "title": "Date"
         }
       }
     }
